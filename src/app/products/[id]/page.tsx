@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
+import { DashboardNav } from "@/components/dashboard-nav";
 import { deleteProduct, getProduct } from "@/lib/api/products";
 import { getLocalProduct, isLocalProductDeleted, markLocalProductDeleted } from "@/lib/products/mutations";
 import type { Product } from "@/lib/products/types";
@@ -75,7 +76,7 @@ function ProductDetails({ params }: ProductDetailsPageProps) {
   if (!product) return <main className="state-page"><p className="form-error">{error || "Could not load this product."}</p><Link className="text-button" href="/products">Back to products</Link></main>;
 
   return (
-    <main className="dashboard-page"><header className="dashboard-header"><div><Link className="back-link" href="/products">← Products</Link><h1>{product.title}</h1></div><div className="action-row"><Link className="secondary-button" href={`/products/${product.id}/edit`}>Edit</Link><button className="danger-button" onClick={handleDelete}>Delete</button></div></header>
+    <main className="dashboard-page"><header className="dashboard-header"><div><Link className="back-link" href="/products">← Products</Link><h1>{product.title}</h1></div><div className="action-row"><Link className="secondary-button" href={`/products/${product.id}/edit`}>Edit</Link><button className="danger-button" onClick={handleDelete}>Delete</button></div></header><DashboardNav />
       <section className="detail-layout"><div className="detail-gallery">{(product.images?.length ? product.images : [product.thumbnail]).map((image, index) => <div className="detail-image" key={image}><Image src={image} alt={`${product.title} image ${index + 1}`} width={560} height={560} priority={index === 0} /></div>)}</div><div className="detail-copy"><p className="eyebrow">{product.category} / Product {product.id}</p><h2>{product.title}</h2><p className="detail-description">{product.description}</p><div className="metric-grid"><div><span>Price</span><strong>${product.price.toFixed(2)}</strong></div><div><span>Rating</span><strong>{product.rating.toFixed(1)} / 5</strong></div><div><span>Stock</span><strong>{product.stock}</strong></div></div>{product.reviews?.length ? <div className="reviews"><h3>Recent reviews</h3>{product.reviews.map((review) => <article key={`${review.reviewerEmail}-${review.date}`}><strong>{review.reviewerName}</strong><span>{review.rating} / 5</span><p>{review.comment}</p></article>)}</div> : null}{error ? <p className="form-error">{error}</p> : null}</div></section>
     </main>
   );

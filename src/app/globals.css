@@ -90,6 +90,12 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .dashboard-page { min-height: 100vh; }
 .dashboard-header { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; padding: 28px clamp(22px, 5vw, 78px); }
 .dashboard-header h1 { font-size: 1.35rem; letter-spacing: -.04em; margin: 10px 0 0; }
+.dashboard-nav { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; padding: 0 clamp(22px, 5vw, 78px); }
+.dashboard-nav nav { display: flex; gap: 24px; }
+.dashboard-nav nav a { border-bottom: 2px solid transparent; color: var(--ink-muted); font-size: .82rem; padding: 16px 0 14px; text-decoration: none; }
+.dashboard-nav nav a:hover, .dashboard-nav nav a.active { border-color: var(--accent); color: var(--foreground); }
+.user-controls { align-items: center; display: flex; gap: 18px; }
+.user-name { color: var(--ink-muted); font-size: .8rem; }
 .dashboard-content { margin: 0 auto; max-width: 1440px; padding: 72px clamp(22px, 5vw, 78px); }
 .section-heading { align-items: end; display: flex; justify-content: space-between; }
 .section-heading .eyebrow { margin: 0 0 12px; }
@@ -137,7 +143,8 @@ td { font-size: .9rem; }
 .reviews article { border-top: 1px solid var(--line); display: grid; gap: 8px; padding: 16px 0; }
 .reviews article span { color: var(--accent-dark); font-size: .8rem; }
 .reviews article p { color: var(--ink-muted); margin: 0; }
-.form-page { margin: 0 auto; max-width: 800px; padding: 72px 24px 100px; }
+.form-page { margin: 0 auto; max-width: 800px; padding: 0 24px 100px; }
+.form-page .dashboard-nav { margin: 0 -24px 72px; }
 .form-page .eyebrow { margin: 70px 0 12px; }
 .form-page h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); letter-spacing: -.07em; line-height: .9; margin: 0 0 54px; }
 .product-form { display: grid; gap: 24px; }
@@ -160,6 +167,8 @@ td { font-size: .9rem; }
   .auth-aside { min-height: 30vh; padding: 38px 24px; }
   .eyebrow { margin-top: 58px; }
   .dashboard-header, .dashboard-content { padding-left: 22px; padding-right: 22px; }
+  .dashboard-nav { align-items: flex-start; flex-direction: column; gap: 4px; padding-left: 22px; padding-right: 22px; }
+  .user-controls { padding-bottom: 12px; }
   .toolbar { align-items: stretch; flex-direction: column; gap: 10px; margin-top: 38px; }
   .toolbar select { width: 100%; }
   .section-heading { align-items: start; flex-direction: column; gap: 18px; }

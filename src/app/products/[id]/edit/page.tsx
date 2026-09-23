@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
+import { DashboardNav } from "@/components/dashboard-nav";
 import { getProduct, updateProduct } from "@/lib/api/products";
 import { ProductForm } from "@/components/product-form";
 import { getLocalProduct, saveLocalProduct } from "@/lib/products/mutations";
@@ -41,5 +42,5 @@ function EditProduct({ params }: { params: Promise<{ id: string }> }) {
   if (error) return <main className="state-page"><h1>{error}</h1><Link className="text-button" href="/products">Back to products</Link></main>;
   if (!product) return <main className="page-loading">Loading product...</main>;
 
-  return <main className="form-page"><Link className="back-link" href={`/products/${product.id}`}>← Product details</Link><p className="eyebrow">Catalog / Edit</p><h1>Edit product</h1><ProductForm initialValues={{ title: product.title, description: product.description, category: product.category, price: product.price, stock: product.stock, thumbnail: product.thumbnail }} submitLabel="Save changes" onSubmit={handleSubmit} /></main>;
+  return <main className="form-page"><DashboardNav /><Link className="back-link" href={`/products/${product.id}`}>← Product details</Link><p className="eyebrow">Catalog / Edit</p><h1>Edit product</h1><ProductForm initialValues={{ title: product.title, description: product.description, category: product.category, price: product.price, stock: product.stock, thumbnail: product.thumbnail }} submitLabel="Save changes" onSubmit={handleSubmit} /></main>;
 }

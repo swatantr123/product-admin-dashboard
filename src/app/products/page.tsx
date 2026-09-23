@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
+import { DashboardNav } from "@/components/dashboard-nav";
 import { ProductList } from "@/components/product-list";
 import { getProductCategories, getProducts, searchProducts, type ProductCategory } from "@/lib/api/products";
-import { clearStoredSession } from "@/lib/auth/session";
 import { applyLocalMutations } from "@/lib/products/mutations";
 import type { Product, ProductSortField } from "@/lib/products/types";
 
@@ -134,14 +134,10 @@ function ProductsDashboard() {
     }
   }, [page, pageCount, pathname, router, searchParams, total]);
 
-  function logout() {
-    clearStoredSession();
-    router.replace("/login");
-  }
-
   return (
     <main className="dashboard-page">
-      <header className="dashboard-header"><div><span className="brand-mark">NORTHSTAR / OPS</span><h1>Product catalog</h1></div><div className="action-row"><Link className="primary-button" href="/products/new">Add product</Link><button className="text-button" onClick={logout}>Log out</button></div></header>
+      <header className="dashboard-header"><div><span className="brand-mark">NORTHSTAR / OPS</span><h1>Product catalog</h1></div><div className="action-row"><Link className="primary-button" href="/products/new">Add product</Link></div></header>
+      <DashboardNav />
       <section className="dashboard-content" aria-labelledby="catalog-heading">
         <div className="section-heading"><div><p className="eyebrow">Operations / Catalog</p><h2 id="catalog-heading">Products</h2></div><span className="result-count">Showing {firstResult.toLocaleString()}–{lastResult.toLocaleString()} of {total.toLocaleString()} results</span></div>
         <div className="toolbar">

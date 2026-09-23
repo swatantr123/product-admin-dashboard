@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
+import { DashboardNav } from "@/components/dashboard-nav";
 import { createProduct } from "@/lib/api/products";
 import { ProductForm } from "@/components/product-form";
 import { createLocalProduct } from "@/lib/products/mutations";
@@ -21,5 +22,5 @@ function NewProduct() {
     router.replace(`/products/${product.id}`);
   }
 
-  return <main className="form-page"><Link className="back-link" href="/products">← Products</Link><p className="eyebrow">Catalog / New</p><h1>Add product</h1><ProductForm submitLabel="Create product" onSubmit={handleSubmit} /></main>;
+  return <main className="form-page"><DashboardNav /><Link className="back-link" href="/products">← Products</Link><p className="eyebrow">Catalog / New</p><h1>Add product</h1><ProductForm submitLabel="Create product" onSubmit={handleSubmit} /></main>;
 }

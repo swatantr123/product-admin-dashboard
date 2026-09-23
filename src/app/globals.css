@@ -102,6 +102,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .text-button:hover { color: var(--accent-dark); }
 .text-button:disabled { cursor: not-allowed; opacity: .35; }
 .product-table-wrap { overflow-x: auto; }
+.mobile-products { display: none; }
 table { border-collapse: collapse; min-width: 760px; width: 100%; }
 th, td { border-bottom: 1px solid var(--line); padding: 19px 12px; text-align: left; }
 th { color: var(--ink-muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
@@ -144,6 +145,13 @@ td { font-size: .9rem; }
 .product-form input:focus, .product-form textarea:focus { border-color: var(--accent); outline: 0; }
 .form-grid { display: grid; gap: 18px; grid-template-columns: 1.4fr 1fr 1fr; }
 .field-hint { color: var(--ink-muted); font-size: .68rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.product-card { background: var(--paper); border: 1px solid var(--line); padding: 18px; }
+.product-card .product-name { border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+.product-card dl { display: grid; gap: 16px 12px; grid-template-columns: repeat(2, 1fr); margin: 18px 0; }
+.product-card dl div { display: grid; gap: 5px; }
+.product-card dt { color: var(--ink-muted); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }
+.product-card dd { font-size: .92rem; margin: 0; }
+.card-action { border-top: 1px solid var(--line); color: var(--accent-dark); display: flex; font-size: .82rem; font-weight: 700; justify-content: space-between; padding-top: 16px; text-decoration: none; }
 
 @media (max-width: 760px) {
   .auth-page { display: block; }
@@ -154,6 +162,8 @@ td { font-size: .9rem; }
   .toolbar { align-items: stretch; flex-direction: column; gap: 10px; margin-top: 38px; }
   .toolbar select { width: 100%; }
   .section-heading { align-items: start; flex-direction: column; gap: 18px; }
+  .desktop-products { display: none; }
+  .mobile-products { display: grid; gap: 12px; }
   .detail-layout { display: block; padding-top: 36px; }
   .detail-image { min-height: 280px; }
   .detail-copy { padding-top: 42px; }

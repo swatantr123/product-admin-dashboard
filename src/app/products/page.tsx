@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
+import { ProductList } from "@/components/product-list";
 import { getProductCategories, getProducts, searchProducts, type ProductCategory } from "@/lib/api/products";
 import { clearStoredSession } from "@/lib/auth/session";
 import { applyLocalMutations } from "@/lib/products/mutations";
@@ -153,7 +153,7 @@ function ProductsDashboard() {
         {error ? <div className="state-panel"><p className="form-error">{error}</p><button className="primary-button" onClick={() => router.refresh()}>Retry</button></div> : null}
         {!error && isLoading ? <div className="state-panel">Loading catalog...</div> : null}
         {!error && !isLoading && !visibleProducts.length ? <div className="state-panel"><h3>No products found</h3><p>Try a different search or category.</p></div> : null}
-        {!error && !isLoading && visibleProducts.length ? <div className="product-table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Rating</th><th>Stock</th><th>Actions</th></tr></thead><tbody>{visibleProducts.map((product) => <tr key={product.id}><td><Link className="product-name" href={`/products/${product.id}`}><Image src={product.thumbnail} alt="" width={48} height={48} /><strong>{product.title}</strong></Link></td><td>{product.category}</td><td>${product.price.toFixed(2)}</td><td>{product.rating.toFixed(1)}</td><td>{product.stock}</td><td><Link className="text-button" href={`/products/${product.id}/edit`}>Edit</Link></td></tr>)}</tbody></table></div> : null}
+        {!error && !isLoading && visibleProducts.length ? <ProductList products={visibleProducts} /> : null}
         <nav className="pagination" aria-label="Product pagination"><button className="text-button" disabled={page <= 1} onClick={() => updateUrl({ page: String(page - 1) })}>Previous</button><span>Page {page} of {pageCount}</span><button className="text-button" disabled={page >= pageCount} onClick={() => updateUrl({ page: String(page + 1) })}>Next</button></nav>
       </section>
     </main>

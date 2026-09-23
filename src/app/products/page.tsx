@@ -124,6 +124,14 @@ function ProductsDashboard() {
   }, [products, sort]);
   const pageCount = Math.max(1, Math.ceil(total / limit));
 
+  useEffect(() => {
+    if (total > 0 && page > pageCount) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("page", String(pageCount));
+      router.replace(`${pathname}?${params.toString()}`);
+    }
+  }, [page, pageCount, pathname, router, searchParams, total]);
+
   function logout() {
     clearStoredSession();
     router.replace("/login");

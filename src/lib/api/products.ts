@@ -13,7 +13,7 @@ export type ProductCategory = {
   url: string;
 };
 
-type ProductListParams = {
+export type ProductListParams = {
   limit: ProductQuery["limit"];
   skip: number;
   sort?: ProductQuery["sort"];

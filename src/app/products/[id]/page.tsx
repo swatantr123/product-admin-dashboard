@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
 import { deleteProduct, getProduct } from "@/lib/api/products";
-import { getLocalProduct, markLocalProductDeleted } from "@/lib/products/mutations";
+import { getLocalProduct, isLocalProductDeleted, markLocalProductDeleted } from "@/lib/products/mutations";
 import type { Product } from "@/lib/products/types";
 
 type ProductDetailsPageProps = {
@@ -29,6 +29,13 @@ function ProductDetails({ params }: ProductDetailsPageProps) {
     params.then(({ id }) => {
       const numericId = Number(id);
       if (!Number.isInteger(numericId) || numericId < 1) {
+        window.setTimeout(() => {
+          setNotFound(true);
+          setIsLoading(false);
+        }, 0);
+        return;
+      }
+      if (isLocalProductDeleted(numericId)) {
         window.setTimeout(() => {
           setNotFound(true);
           setIsLoading(false);

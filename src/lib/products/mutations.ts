@@ -37,6 +37,10 @@ export function getLocalProduct(id: number): Product | null {
   return readStore().products[String(id)] ?? null;
 }
 
+export function isLocalProductDeleted(id: number): boolean {
+  return readStore().deleted.includes(id);
+}
+
 export function saveLocalProduct(product: Product) {
   const store = readStore();
   store.products[String(product.id)] = product;

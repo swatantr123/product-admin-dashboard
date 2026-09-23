@@ -33,6 +33,8 @@ function ProductsDashboard() {
   const searchParams = useSearchParams();
   const page = parsePage(searchParams.get("page"));
   const limit = parseLimit(searchParams.get("limit"));
+  const rawPage = searchParams.get("page");
+  const rawLimit = searchParams.get("limit");
   const search = searchParams.get("search") ?? "";
   const category = searchParams.get("category") ?? "";
   const sortParam = searchParams.get("sort");
@@ -43,6 +45,24 @@ function ProductsDashboard() {
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    let changed = false;
+    if (rawPage !== null && String(page) !== rawPage) {
+      params.set("page", String(page));
+      changed = true;
+    }
+    if (rawLimit !== null && String(limit) !== rawLimit) {
+      params.set("limit", String(limit));
+      changed = true;
+    }
+    if (sortParam !== null && sort === "title" && sortParam !== "title" || sortParam !== null && !SORTS.includes(sortParam as ProductSortField)) {
+      params.set("sort", sort);
+      changed = true;
+    }
+    if (changed) router.replace(`${pathname}?${params.toString()}`);
+  }, [limit, page, pathname, rawLimit, rawPage, router, searchParams, sort, sortParam]);
 
   function updateUrl(updates: Record<string, string>) {
     const params = new URLSearchParams(searchParams.toString());

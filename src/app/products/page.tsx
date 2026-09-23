@@ -150,7 +150,7 @@ function ProductsDashboard() {
         {!error && isLoading ? <div className="state-panel">Loading catalog...</div> : null}
         {!error && !isLoading && !visibleProducts.length ? <div className="state-panel"><h3>No products found</h3><p>Try a different search or category.</p></div> : null}
         {!error && !isLoading && visibleProducts.length ? <ProductList products={visibleProducts} /> : null}
-        <nav className="pagination" aria-label="Product pagination"><button className="text-button" disabled={page <= 1} onClick={() => updateUrl({ page: String(page - 1) })}>Previous</button><span>Page {page} of {pageCount}</span><button className="text-button" disabled={page >= pageCount} onClick={() => updateUrl({ page: String(page + 1) })}>Next</button></nav>
+        <nav className="pagination" aria-label="Product pagination"><button className="text-button" disabled={page <= 1} onClick={() => updateUrl({ page: String(page - 1) })}>Previous</button><div className="page-numbers">{Array.from({ length: pageCount }, (_, index) => index + 1).map((pageNumber) => <button className={`page-number${pageNumber === page ? " active" : ""}`} key={pageNumber} aria-current={pageNumber === page ? "page" : undefined} onClick={() => updateUrl({ page: String(pageNumber) })}>{pageNumber}</button>)}</div><span>Page {page} of {pageCount}</span><button className="text-button" disabled={page >= pageCount} onClick={() => updateUrl({ page: String(page + 1) })}>Next</button></nav>
       </section>
     </main>
   );

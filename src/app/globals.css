@@ -122,6 +122,9 @@ td { font-size: .9rem; }
 .state-panel h3 { margin: 0 0 8px; }
 .state-panel p { color: var(--ink-muted); }
 .pagination { align-items: center; display: flex; gap: 28px; justify-content: flex-end; margin-top: 28px; }
+.page-numbers { display: flex; flex-wrap: wrap; gap: 5px; }
+.page-number { background: transparent; border: 1px solid transparent; color: var(--ink-muted); cursor: pointer; min-height: 34px; min-width: 34px; }
+.page-number:hover, .page-number.active { border-color: var(--accent); color: var(--accent-dark); }
 .sr-only { height: 1px; margin: -1px; overflow: hidden; position: absolute; width: 1px; }
 .back-link { color: var(--ink-muted); font-size: .85rem; text-decoration: none; }
 .back-link:hover { color: var(--accent-dark); }
@@ -182,4 +185,6 @@ td { font-size: .9rem; }
   .detail-copy { padding-top: 42px; }
   .form-grid { grid-template-columns: 1fr; }
   .action-row { gap: 10px; }
+  .pagination { align-items: flex-start; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+  .pagination > span { order: 3; width: 100%; }
 }

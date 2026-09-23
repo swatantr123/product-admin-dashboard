@@ -84,6 +84,14 @@ Manual release checks:
 
 For API-level delayed search testing, call `searchProducts("phone", { limit: 10, skip: 0, delay: 2000, signal })` from a client test harness and abort it when a newer query starts.
 
+## Implementation Notes
+
+The UI uses a small client-side controller for URL state and a shared Axios/API layer so request details stay outside page components. Search takes precedence over category requests; category filtering is applied to search results in the browser because DummyJSON does not support both filters in one endpoint.
+
+One issue encountered was that DummyJSON returns an ID for a created product but does not make that product available to a later detail request. The app keeps a local mutation overlay and resolves locally created or edited products before requesting the API, while also normalizing incomplete response fields so the catalog cannot crash on missing ratings or images.
+
+AI assistance was used for code scaffolding, API integration, debugging, and requirement cross-checking. The implementation was reviewed against the assignment requirements and validated with lint, production build, and local browser smoke tests.
+
 ## Deployment
 
 The project can be deployed to Vercel or Netlify as a standard Next.js application. No environment variables are required because the API base URL is currently `https://dummyjson.com`.

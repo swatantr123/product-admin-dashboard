@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AuthGuard } from "@/components/auth-guard";
 import { getProductCategories, getProducts, searchProducts, type ProductCategory } from "@/lib/api/products";
 import { clearStoredSession } from "@/lib/auth/session";
+import { applyLocalMutations } from "@/lib/products/mutations";
 import type { Product, ProductSortField } from "@/lib/products/types";
 
 const SORTS: ProductSortField[] = ["title", "price", "rating"];
@@ -81,7 +83,8 @@ function ProductsDashboard() {
       : getProducts({ limit, skip: (page - 1) * limit, sort, order: "asc", signal: controller.signal });
 
     request.then((result) => {
-      const visible = category ? result.products.filter((product) => product.category === category) : result.products;
+      const mergedProducts = applyLocalMutations(result.products);
+      const visible = category ? mergedProducts.filter((product) => product.category === category) : mergedProducts;
       setProducts(visible);
       setTotal(category && search ? visible.length : result.total);
     }).catch((requestError) => {
@@ -108,7 +111,7 @@ function ProductsDashboard() {
 
   return (
     <main className="dashboard-page">
-      <header className="dashboard-header"><div><span className="brand-mark">NORTHSTAR / OPS</span><h1>Product catalog</h1></div><button className="text-button" onClick={logout}>Log out</button></header>
+      <header className="dashboard-header"><div><span className="brand-mark">NORTHSTAR / OPS</span><h1>Product catalog</h1></div><div className="action-row"><Link className="primary-button" href="/products/new">Add product</Link><button className="text-button" onClick={logout}>Log out</button></div></header>
       <section className="dashboard-content" aria-labelledby="catalog-heading">
         <div className="section-heading"><div><p className="eyebrow">Operations / Catalog</p><h2 id="catalog-heading">Products</h2></div><span className="result-count">{total.toLocaleString()} results</span></div>
         <div className="toolbar">
@@ -120,7 +123,7 @@ function ProductsDashboard() {
         {error ? <div className="state-panel"><p className="form-error">{error}</p><button className="primary-button" onClick={() => router.refresh()}>Retry</button></div> : null}
         {!error && isLoading ? <div className="state-panel">Loading catalog...</div> : null}
         {!error && !isLoading && !visibleProducts.length ? <div className="state-panel"><h3>No products found</h3><p>Try a different search or category.</p></div> : null}
-        {!error && !isLoading && visibleProducts.length ? <div className="product-table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Rating</th><th>Stock</th></tr></thead><tbody>{visibleProducts.map((product) => <tr key={product.id}><td><div className="product-name"><Image src={product.thumbnail} alt="" width={48} height={48} /><strong>{product.title}</strong></div></td><td>{product.category}</td><td>${product.price.toFixed(2)}</td><td>{product.rating.toFixed(1)}</td><td>{product.stock}</td></tr>)}</tbody></table></div> : null}
+        {!error && !isLoading && visibleProducts.length ? <div className="product-table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Rating</th><th>Stock</th><th>Actions</th></tr></thead><tbody>{visibleProducts.map((product) => <tr key={product.id}><td><Link className="product-name" href={`/products/${product.id}`}><Image src={product.thumbnail} alt="" width={48} height={48} /><strong>{product.title}</strong></Link></td><td>{product.category}</td><td>${product.price.toFixed(2)}</td><td>{product.rating.toFixed(1)}</td><td>{product.stock}</td><td><Link className="text-button" href={`/products/${product.id}/edit`}>Edit</Link></td></tr>)}</tbody></table></div> : null}
         <nav className="pagination" aria-label="Product pagination"><button className="text-button" disabled={page <= 1} onClick={() => updateUrl({ page: String(page - 1) })}>Previous</button><span>Page {page} of {pageCount}</span><button className="text-button" disabled={page >= pageCount} onClick={() => updateUrl({ page: String(page + 1) })}>Next</button></nav>
       </section>
     </main>

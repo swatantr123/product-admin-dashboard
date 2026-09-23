@@ -22,3 +22,5 @@ export type StoredSession = {
   accessToken: string;
   refreshToken: string;
 };
+
+export const AUTH_STORAGE_KEY = "product-admin-session";

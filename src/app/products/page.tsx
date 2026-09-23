@@ -123,6 +123,8 @@ function ProductsDashboard() {
     return [...products].sort((left, right) => right[sort] - left[sort]);
   }, [products, sort]);
   const pageCount = Math.max(1, Math.ceil(total / limit));
+  const firstResult = total === 0 ? 0 : (page - 1) * limit + 1;
+  const lastResult = Math.min(page * limit, total);
 
   useEffect(() => {
     if (total > 0 && page > pageCount) {
@@ -141,7 +143,7 @@ function ProductsDashboard() {
     <main className="dashboard-page">
       <header className="dashboard-header"><div><span className="brand-mark">NORTHSTAR / OPS</span><h1>Product catalog</h1></div><div className="action-row"><Link className="primary-button" href="/products/new">Add product</Link><button className="text-button" onClick={logout}>Log out</button></div></header>
       <section className="dashboard-content" aria-labelledby="catalog-heading">
-        <div className="section-heading"><div><p className="eyebrow">Operations / Catalog</p><h2 id="catalog-heading">Products</h2></div><span className="result-count">{total.toLocaleString()} results</span></div>
+        <div className="section-heading"><div><p className="eyebrow">Operations / Catalog</p><h2 id="catalog-heading">Products</h2></div><span className="result-count">Showing {firstResult.toLocaleString()}–{lastResult.toLocaleString()} of {total.toLocaleString()} results</span></div>
         <div className="toolbar">
           <label className="search-field"><span className="sr-only">Search products</span><input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="Search products" /></label>
           <select value={category} onChange={(event) => updateUrl({ category: event.target.value, page: "1" })} aria-label="Filter by category"><option value="">All categories</option>{categories.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select>

@@ -18,15 +18,17 @@ export type ProductListParams = {
   skip: number;
   sort?: ProductQuery["sort"];
   order?: ProductQuery["order"];
+  delay?: number;
   signal?: AbortSignal;
 };
 
 export async function getProducts(
   params: ProductListParams,
 ): Promise<PaginatedResponse<Product>> {
+  const { signal, ...query } = params;
   const response = await apiClient.get<PaginatedResponse<Product>>(
     apiRoutes.products,
-    { params, signal: params.signal },
+    { params: query, signal },
   );
   return response.data;
 }
@@ -35,11 +37,12 @@ export async function searchProducts(
   query: string,
   params: ProductListParams,
 ): Promise<PaginatedResponse<Product>> {
+  const { signal, ...listQuery } = params;
   const response = await apiClient.get<PaginatedResponse<Product>>(
     apiRoutes.productSearch,
     {
-      params: { q: query, limit: params.limit, skip: params.skip },
-      signal: params.signal,
+      params: { q: query, ...listQuery },
+      signal,
     },
   );
   return response.data;
@@ -59,9 +62,10 @@ export async function getProductsByCategory(
   category: string,
   params: ProductListParams,
 ): Promise<PaginatedResponse<Product>> {
+  const { signal, ...query } = params;
   const response = await apiClient.get<PaginatedResponse<Product>>(
     apiRoutes.productCategory(category),
-    { params, signal: params.signal },
+    { params: query, signal },
   );
   return response.data;
 }

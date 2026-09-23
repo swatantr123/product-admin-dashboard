@@ -115,6 +115,7 @@ th { color: var(--ink-muted); font-size: .7rem; letter-spacing: .08em; text-tran
 td { font-size: .9rem; }
 .product-name { align-items: center; display: flex; gap: 14px; min-width: 250px; }
 .product-name img { background: white; height: 48px; object-fit: contain; width: 48px; }
+.product-image-placeholder { background: var(--soft-green); display: block; height: 48px; width: 48px; }
 .product-name { color: var(--foreground); text-decoration: none; }
 .product-name:hover strong { color: var(--accent-dark); }
 .state-panel { border: 1px dashed var(--line); margin-top: 30px; padding: 58px 24px; text-align: center; }
@@ -130,6 +131,7 @@ td { font-size: .9rem; }
 .detail-gallery { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .detail-image { align-items: center; background: white; display: flex; justify-content: center; min-height: 280px; }
 .detail-image img { height: auto; max-height: 560px; object-fit: contain; width: 100%; }
+.detail-image-placeholder { align-items: center; background: var(--soft-green); color: var(--ink-muted); display: flex; justify-content: center; min-height: 280px; }
 .detail-copy { padding-top: 20px; }
 .detail-copy .eyebrow { margin: 0 0 18px; }
 .detail-copy h2 { font-size: clamp(2.6rem, 5vw, 5.5rem); letter-spacing: -.07em; line-height: .9; margin: 0; }

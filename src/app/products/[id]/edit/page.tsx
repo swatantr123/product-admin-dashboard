@@ -27,6 +27,11 @@ function EditProduct({ params }: { params: Promise<{ id: string }> }) {
         setError("Product not found.");
         return;
       }
+      const localProduct = getLocalProduct(numericId);
+      if (localProduct) {
+        setProduct(localProduct);
+        return;
+      }
       getProduct(numericId).then((result) => { if (active) setProduct(getLocalProduct(numericId) ?? result); }).catch(() => { if (active) setError("Product not found."); });
     });
     return () => { active = false; };

@@ -20,5 +20,5 @@ export function ProductList({ products }: { products: Product[] }) {
 }
 
 function ProductLink({ product }: { product: Product }) {
-  return <Link className="product-name" href={`/products/${product.id}`}><Image src={product.thumbnail} alt="" width={48} height={48} /><strong>{product.title}</strong></Link>;
+  return <Link className="product-name" href={`/products/${product.id}`}>{product.thumbnail ? <Image src={product.thumbnail} alt="" width={48} height={48} /> : <span className="product-image-placeholder" aria-hidden="true" /> }<strong>{product.title}</strong></Link>;
 }

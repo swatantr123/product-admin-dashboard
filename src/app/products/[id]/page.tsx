@@ -43,10 +43,15 @@ function ProductDetails({ params }: ProductDetailsPageProps) {
         }, 0);
         return;
       }
+      const localProduct = getLocalProduct(numericId);
+      if (localProduct) {
+        setProduct(localProduct);
+        setIsLoading(false);
+        return;
+      }
 
       getProduct(numericId, controller.signal).then((result) => {
-        const localProduct = getLocalProduct(numericId);
-        setProduct(localProduct ?? result);
+        setProduct(result);
       }).catch((requestError) => {
         if (!controller.signal.aborted) {
           setNotFound(requestError?.status === 404);
@@ -77,7 +82,7 @@ function ProductDetails({ params }: ProductDetailsPageProps) {
 
   return (
     <main className="dashboard-page"><header className="dashboard-header"><div><Link className="back-link" href="/products">← Products</Link><h1>{product.title}</h1></div><div className="action-row"><Link className="secondary-button" href={`/products/${product.id}/edit`}>Edit</Link><button className="danger-button" onClick={handleDelete}>Delete</button></div></header><DashboardNav />
-      <section className="detail-layout"><div className="detail-gallery">{(product.images?.length ? product.images : [product.thumbnail]).map((image, index) => <div className="detail-image" key={image}><Image src={image} alt={`${product.title} image ${index + 1}`} width={560} height={560} priority={index === 0} /></div>)}</div><div className="detail-copy"><p className="eyebrow">{product.category} / Product {product.id}</p><h2>{product.title}</h2><p className="detail-description">{product.description}</p><div className="metric-grid"><div><span>Price</span><strong>${product.price.toFixed(2)}</strong></div><div><span>Rating</span><strong>{product.rating.toFixed(1)} / 5</strong></div><div><span>Stock</span><strong>{product.stock}</strong></div></div>{product.reviews?.length ? <div className="reviews"><h3>Recent reviews</h3>{product.reviews.map((review) => <article key={`${review.reviewerEmail}-${review.date}`}><strong>{review.reviewerName}</strong><span>{review.rating} / 5</span><p>{review.comment}</p></article>)}</div> : null}{error ? <p className="form-error">{error}</p> : null}</div></section>
+      <section className="detail-layout"><div className="detail-gallery">{(product.images?.filter(Boolean).length ? product.images.filter(Boolean) : product.thumbnail ? [product.thumbnail] : []).map((image, index) => <div className="detail-image" key={image}><Image src={image} alt={`${product.title} image ${index + 1}`} width={560} height={560} priority={index === 0} /></div>)}{!product.images?.filter(Boolean).length && !product.thumbnail ? <div className="detail-image-placeholder">No product image</div> : null}</div><div className="detail-copy"><p className="eyebrow">{product.category} / Product {product.id}</p><h2>{product.title}</h2><p className="detail-description">{product.description}</p><div className="metric-grid"><div><span>Price</span><strong>${Number(product.price ?? 0).toFixed(2)}</strong></div><div><span>Rating</span><strong>{Number(product.rating ?? 0).toFixed(1)} / 5</strong></div><div><span>Stock</span><strong>{product.stock ?? 0}</strong></div></div>{product.reviews?.length ? <div className="reviews"><h3>Recent reviews</h3>{product.reviews.map((review) => <article key={`${review.reviewerEmail}-${review.date}`}><strong>{review.reviewerName}</strong><span>{review.rating} / 5</span><p>{review.comment}</p></article>)}</div> : null}{error ? <p className="form-error">{error}</p> : null}</div></section>
     </main>
   );
 }
